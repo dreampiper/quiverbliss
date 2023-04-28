@@ -1,8 +1,5 @@
-import Avatar from "@/components/Avatar";
 import CardL from "@/components/CardL";
-import Cover from "@/components/Cover";
 import FollowButton from "@/components/FollowButton";
-import Nav from "@/components/Nav";
 import { Inter } from "next/font/google";
 import Image from "next/image";
 
@@ -11,14 +8,9 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   return (
     <main className="flex flex-col">
-      <div className=" mb-[40px]">
-        <Cover src={"/banner.png" || ""} />
-        <Avatar src={"/banner-logo.png" || ""} />
-      </div>
       <div className=" flex flex-col gap-16 pt-[40px] px-10">
-        <Nav />
         <div className=" w-full flex gap-10">
-          <div className=" min-w-[560px] h-[315px] relative">
+          <div className=" min-w-[360px] max-w-[560px] w-full h-[315px] relative">
             <div className=" relative w-full h-full overflow-hidden rounded-lg">
               <Image
                 src={"/video.png"}

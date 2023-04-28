@@ -1,7 +1,9 @@
-import Header from "@/components/Header";
-import "../styles/globals.css";
-import { Inter } from "next/font/google";
 import HeaderL from "@/components/HeaderL";
+import { Inter } from "next/font/google";
+import "../styles/globals.css";
+import Avatar from "@/components/Avatar";
+import Cover from "@/components/Cover";
+import Nav from "@/components/Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +19,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className= {`${inter.className} bg-[#F2F6F9]`}>
+      <body className={`${inter.className} bg-[#F2F6F9]`}>
         <div className=" bg-[#F2F6F9] text-[#282B36]">
           <HeaderL />
+          <div className=" flex flex-col gap-16">
+            <div className=" ">
+              <Cover src={"/banner.png" || ""} />
+              <Avatar src={"/banner-logo.png" || ""} />
+            </div>
+            <Nav />
+          </div>
+
           {children}
         </div>
       </body>
