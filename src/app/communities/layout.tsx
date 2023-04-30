@@ -1,9 +1,7 @@
 import HeaderL from "@/components/HeaderL";
-// import "../styles/globals.css";
 import Avatar from "@/components/Avatar";
 import Cover from "@/components/Cover";
 import Nav from "@/components/Nav";
-
 
 export const metadata = {
   title: "Create Next App",
@@ -19,14 +17,6 @@ export default function RootLayout({
     <>
       <div className=" bg-[#F2F6F9] text-[#282B36] mb-10">
         <HeaderL />
-        <div className=" flex flex-col gap-16">
-          <div className=" ">
-            <Cover src={"/banner.png" || ""} />
-            <Avatar src={"/banner-logo.png" || ""} />
-          </div>
-          <Nav />
-        </div>
-
         {children}
       </div>
     </>
