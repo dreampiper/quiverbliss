@@ -28,7 +28,7 @@ const page = () => {
               Designs for Orbis Hackathon!
             </p>
             <p className=" text-[#484E62] text-2xl leading-9">
-              SMM – A social management app concept I've made, this might also
+              SMM – A social management app concept I&apos;ve made, this might also
               fit the task management app. Do you want to see it in dark-mode,
               please let me know your thoughts in the comment form below. Thanks
               for your time.

@@ -86,7 +86,7 @@ const page = () => {
           <div>
             <p className=" text-xl tracking-wider">Cover (optional)</p>
             <p className=" tracking-wider">
-              Select or upload a picture that shows what's in your video.
+              Select or upload a picture that shows what&apos;s in your video.
             </p>
           </div>
           <button className=" bg-white flex px-[18px] py-[14px] gap-4 rounded-lg">

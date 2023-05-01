@@ -57,7 +57,7 @@ const page = () => {
             <div>
               <p className=" text-xl tracking-wider">Cover</p>
               <p className=" tracking-wider">
-                Upload a picture that represents this project, or shows what's
+                Upload a picture that represents this project, or shows what&apos;s
                 in your video.
               </p>
             </div>
