@@ -65,7 +65,7 @@ const page = () => {
 
           <div className=" grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-4 w-full ">
             {communities.activeProjects.map((project, i) => (
-              <CardL title={project.title} />
+              <CardL key={i} title={project.title} />
             ))}
           </div>
         </div>
