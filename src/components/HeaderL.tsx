@@ -3,7 +3,7 @@ import ConnectButtonL from "./ConnectButtonL";
 
 const Header = () => {
   return (
-    <div className=" w-full py-4 px-8 flex justify-between items-center bg-white">
+    <div className=" w-full p-4 flex justify-between items-center bg-white">
       <img src="/logo-w.svg" alt="" />
       <ConnectButtonL />
     </div>
