@@ -1,4 +1,5 @@
 import CommunityCard from "@/components/CommunityCard";
+import { communities } from "@/data/data";
 
 const page = () => {
   return (
@@ -24,9 +25,14 @@ const page = () => {
           placeholder="Search..."
         />
         <div className=" grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-4 w-full">
-          <CommunityCard />
-          <CommunityCard />
-          <CommunityCard />
+          {communities.map((data, i) => (
+            <CommunityCard
+              name={data.name}
+              description={data.description}
+              avatarUrl={data.avatarUrl}
+              key={i}
+            />
+          ))}
         </div>
       </div>
     </div>
