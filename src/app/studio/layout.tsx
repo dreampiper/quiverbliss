@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <div className=" bg-[#050505] text-white ">
+      <div className=" bg-[#050505] text-white">
         <Header />
         {children}
       </div>
