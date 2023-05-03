@@ -29,7 +29,7 @@ const Page = () => {
         </div>
         <div className=" grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-4 w-full ">
           {communities.map((data, i) => (
-            <Card />
+            <Card key={i} />
           ))}
         </div>
       </div>
