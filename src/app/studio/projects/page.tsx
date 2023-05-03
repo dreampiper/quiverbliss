@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const page = () => {
+const Page = () => {
   const [communities, setCommunities] = useState<any[]>([]);
   const { getCommunities, getCommunitiesId } = usePolybase();
 
@@ -37,4 +37,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

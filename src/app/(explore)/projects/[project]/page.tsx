@@ -5,7 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { usePolybase } from "@/hooks/polybase";
 
-const page = () => {
+const Page = () => {
   const communities = {
     id: "com-001",
     name: "Dreampiper",
@@ -112,4 +112,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

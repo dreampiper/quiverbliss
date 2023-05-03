@@ -8,7 +8,7 @@ import { Project, usePolybase } from "@/hooks/polybase";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const page = () => {
+const Page = () => {
   const pathname = usePathname();
   const {
     setActiveCommunityId,
@@ -78,4 +78,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

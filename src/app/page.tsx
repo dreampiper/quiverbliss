@@ -3,7 +3,7 @@ import { usePolybase } from "@/hooks/polybase";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-const page = () => {
+const Page = () => {
   const { createCommunitiesObject, signOut, signIn } = usePolybase();
   useEffect(() => {
     console.log("what");
@@ -37,4 +37,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

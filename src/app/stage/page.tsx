@@ -8,8 +8,8 @@ const Editor = dynamic(
   { ssr: false }
 );
 
-const page = () => {
+const Page = () => {
   return <Editor />;
 };
 
-export default page;
+export default Page;
