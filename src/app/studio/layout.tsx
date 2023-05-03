@@ -16,9 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <div className=" bg-[#050505] text-white">
-        <Header />
-        {children}
+      <div className="block overflow-auto bg-[#050505] text-white w-full h-full">
+        <div className="flex flex-col w-full h-full">
+          <Header />
+          {children}
+        </div>
       </div>
     </>
   );
