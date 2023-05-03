@@ -32,7 +32,7 @@ const CanvasRoot = () => {
   }, [width, height]);
   const frame = useRenderLoop(60);
   return (
-    <div className="w-full h-full bg-[#13121D] bg-[url(/grid--dark.svg)]">
+    <div className="w-full h-full bg-[#13121D] bg-[url(/grid--dark.svg)] overscroll-none">
       <div
         className="w-full h-full relative overflow-hidden overscroll-none"
         ref={canvas}
