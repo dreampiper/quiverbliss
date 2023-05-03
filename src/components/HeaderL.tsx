@@ -1,7 +1,7 @@
 import React from "react";
 import ConnectButtonL from "./ConnectButtonL";
 
-const Header = () => {
+const HeaderL = () => {
   return (
     <div className=" w-full p-4 flex justify-between items-center bg-white">
       <img src="/logo-w.svg" alt="" />
@@ -10,4 +10,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderL;
