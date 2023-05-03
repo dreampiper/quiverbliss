@@ -3,7 +3,7 @@ import React from "react";
 const Tag = () => {
   const chip = ["on-chain", "feedback", "voting"];
   return (
-    <div className=" flex gap-4">
+    <div style={{ visibility: "hidden" }} className=" flex gap-4">
       {chip.map((item, i) => {
         switch (item) {
           case "on-chain":

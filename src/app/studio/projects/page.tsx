@@ -1,10 +1,23 @@
+"use client";
+
 import Card from "@/components/Card";
-import Tag from "@/components/Tag";
+import { usePolybase } from "@/hooks/polybase";
 import { Inter } from "next/font/google";
+import { useEffect, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 const page = () => {
+  const [communities, setCommunities] = useState<any[]>([]);
+  const { getCommunities, getCommunitiesId } = usePolybase();
+
+  useEffect(() => {
+    (async () => {
+      const communities = await getCommunities(getCommunitiesId || []);
+      setCommunities(communities);
+    })();
+  }, [getCommunitiesId]);
+
   return (
     <main className="flex flex-col">
       <div className=" px-8 pb-8 flex w-full flex-col gap-8">
@@ -15,9 +28,9 @@ const page = () => {
           </button>
         </div>
         <div className=" grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-4 w-full ">
-          <Card />
-          <Card />
-          <Card />
+          {communities.map((data, i) => (
+            <Card />
+          ))}
         </div>
       </div>
     </main>

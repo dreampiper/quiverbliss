@@ -1,14 +1,38 @@
 import generateQuickGuid from "@/utils/generateQuickGuid";
 import { Auth } from "@polybase/auth";
 import { Polybase } from "@polybase/client";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+interface Community {
+  id: string;
+  name: string;
+  description: string;
+  avatarUrl: string;
+  bannerImageUrl: string;
+  featuredVideoUrl: string;
+  featuredCoverImage: string;
+  projectsId: string[];
+  updatedAt: number;
+  createdAt: number;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  featuredVideoUrl: string;
+  featuredCoverImage: string;
+  active: boolean;
+  figmaFramesURL: string[];
+  artboardsId: string[];
+  updatedAt: number;
+  createdAt: number;
+}
 
 const db = new Polybase({
   defaultNamespace:
     "pk/0xc0ccc35ddd223f3f873dcb7fb1cec7d511e361ac611fb407fbcd2b854bf99143193fc42715a91c18c65849f5eb99dfe0faa3b77870ae954e8bb7ae36c4585988/Quiverbliss",
 });
-
-const auth = typeof window !== "undefined" ? new Auth() : null;
 
 const userReference = db.collection("User");
 const communityReference = db.collection("Community");
@@ -19,17 +43,22 @@ const communitiesObjReference = db.collection("Communities");
 export const usePolybase = () => {
   const [loggedIn, setLogin] = useState(false);
   const [user, setUser] = useState<any>();
+  const [auth, setAuth] = useState<any>();
 
-  const [communitiesObjId, setCommunitiesObjId] = useState("");
+  const [communitiesObjId, setCommunitiesObjId] = useState("quiver_test_0");
   const [getCommunitiesId, setCommunities] = useState<string[] | null>(null);
   const [communityId, setActiveCommunityId] = useState<string | null>(null);
   const [projectId, setActiveProjectId] = useState<string | null>(null);
 
-  const [getCommunity, setCommunityData] = useState<any>();
-  const [getProject, setProjectData] = useState<any>();
+  const [getCommunity, setCommunityData] = useState<Community | null>(null);
+  const [getProject, setProjectData] = useState<Project | null>(null);
+
+  useEffect(() => {
+    setAuth(new Auth());
+  }, []);
 
   useMemo(() => {
-    auth?.onAuthUpdate((authState) => {
+    auth?.onAuthUpdate((authState: { userId: any }) => {
       if (authState) {
         setLogin(true);
         setUser(authState.userId);
@@ -50,6 +79,7 @@ export const usePolybase = () => {
       };
     });
 
+    alert("happy");
     if (!res?.userId) return auth.signOut();
 
     await userReference.create([
@@ -59,7 +89,6 @@ export const usePolybase = () => {
       "", // avatarUrl
       Date.now(), // createdAt
     ]);
-
     setUser(res?.userId);
   };
 
@@ -121,7 +150,7 @@ export const usePolybase = () => {
     if (!communityId) return;
     communityReference.record(communityId).onSnapshot(
       (newDoc) => {
-        setCommunityData(newDoc);
+        setCommunityData(newDoc as any);
       },
       (err) => {
         console.log(err);
@@ -184,7 +213,7 @@ export const usePolybase = () => {
     if (!projectId) return;
     projectReference.record(projectId).onSnapshot(
       (newDoc) => {
-        setProjectData(newDoc);
+        setProjectData(newDoc as any as Project);
       },
       (err) => {
         console.log(err);
@@ -194,7 +223,7 @@ export const usePolybase = () => {
 
   const getProjects = useCallback(async (projectsId: string[]) => {
     const data = projectsId.map(
-      async (id) => await projectReference.record(id).get()
+      async (id) => await projectReference.record(id).get() as any as Project
     );
     return await Promise.all(data);
   }, []);
@@ -275,12 +304,16 @@ export const usePolybase = () => {
       name: string;
       description: string;
     }) => {
-      communitiesObjReference.create([
+      const c = await communitiesObjReference.create([
         id, // id
         name, // name
         description, // description
         Date.now(), // createdAt
       ]);
+
+      console.log("why");
+
+      console.log(c);
     },
     []
   );
@@ -291,6 +324,7 @@ export const usePolybase = () => {
       (newDoc) => {
         const { communitiesId } = newDoc as any;
         setCommunities(communitiesId);
+        console.log(newDoc);
       },
       (err) => {
         console.log(err);
@@ -313,6 +347,8 @@ export const usePolybase = () => {
     getCommunities,
     // updateCommunity,
     // deleteCommunity,
+    setActiveCommunityId,
+    setActiveProjectId,
 
     createProject,
     getProject,
