@@ -2,6 +2,7 @@ import HeaderL from "@/components/HeaderL";
 import Link from "next/link";
 import React from "react";
 
+const Page = () => {
   return (
     <div className=" ">
       <HeaderL />
@@ -60,4 +61,4 @@ import React from "react";
   );
 };
 
-export default page;
+export default Page;
