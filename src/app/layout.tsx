@@ -1,7 +1,13 @@
-import { Inter } from "next/font/google";
+import { Inter, Merienda } from "next/font/google";
 import "../styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const merienda = Merienda({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-merienda",
+});
 
 export const metadata = {
   title: "Quiverbliss",
@@ -14,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={`${inter.className}flex flex-col bg-[#F2F6F9] w-full h-full overflow-x-hidden overscroll-none`} lang="en">
+    <html className={`${inter.className} ${merienda.variable} flex flex-col bg-[#F2F6F9] w-full h-full overflow-x-hidden overscroll-none`} lang="en">
       <body className={"flex flex-col w-full h-full"}>{children}</body>
     </html>
   );
