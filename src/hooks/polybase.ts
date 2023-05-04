@@ -1,14 +1,59 @@
+import { store } from "@/store/store";
 import generateQuickGuid from "@/utils/generateQuickGuid";
 import { Auth } from "@polybase/auth";
 import { Polybase } from "@polybase/client";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+export interface Community {
+  id: string;
+  name: string;
+  description: string;
+  avatarUrl: string;
+  bannerImageUrl: string;
+  featuredVideoUrl: string;
+  featuredCoverImage: string;
+  projectsId: string[];
+  updatedAt: number;
+  createdAt: number;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  featuredVideoUrl: string;
+  featuredCoverImage: string;
+  active: boolean;
+  figmaFramesURL: string[];
+  artboardsId: string[];
+  updatedAt: number;
+  createdAt: number;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl: string;
+  communitiesId: string[];
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface Artboard {
+  id: string;
+  title: string;
+  audioUrl?: string;
+  mouseMoveUrl?: string;
+  figmaFramesURL: string[];
+  updatedAt: number;
+  createdAt: number;
+}
 
 const db = new Polybase({
   defaultNamespace:
     "pk/0xc0ccc35ddd223f3f873dcb7fb1cec7d511e361ac611fb407fbcd2b854bf99143193fc42715a91c18c65849f5eb99dfe0faa3b77870ae954e8bb7ae36c4585988/Quiverbliss",
 });
-
-const auth = typeof window !== "undefined" ? new Auth() : null;
 
 const userReference = db.collection("User");
 const communityReference = db.collection("Community");
@@ -18,60 +63,65 @@ const communitiesObjReference = db.collection("Communities");
 
 export const usePolybase = () => {
   const [loggedIn, setLogin] = useState(false);
-  const [user, setUser] = useState<any>();
+  const userId = store((state) => state.userId);
+  const setUserId = store((state) => state.setUserId);
 
-  const [communitiesObjId, setCommunitiesObjId] = useState("");
+  const [auth, setAuth] = useState<any>();
+
+  const [communitiesObjId, setCommunitiesObjId] = useState("quiver_test_0");
   const [getCommunitiesId, setCommunities] = useState<string[] | null>(null);
   const [communityId, setActiveCommunityId] = useState<string | null>(null);
   const [projectId, setActiveProjectId] = useState<string | null>(null);
 
-  const [getCommunity, setCommunityData] = useState<any>();
-  const [getProject, setProjectData] = useState<any>();
+  const [getCommunity, setCommunityData] = useState<Community | null>(null);
+  const [getProject, setProjectData] = useState<Project | null>(null);
+  useEffect(() => {
+    setAuth(new Auth());
+  }, []);
 
   useMemo(() => {
-    auth?.onAuthUpdate((authState) => {
+    auth?.onAuthUpdate((authState: { userId: any }) => {
       if (authState) {
         setLogin(true);
-        setUser(authState.userId);
+        setUserId(authState.userId);
       } else {
         setLogin(false);
+        setUserId(null);
       }
     });
   }, [auth]);
 
-  const signIn = async () => {
+  db.signer(async (data) => {
+    console.log(data);
+    return {
+      h: "eth-personal-sign",
+      sig: await auth.ethPersonalSign(data),
+    };
+  });
+
+  const authenticate = async () => {
     if (!auth) return;
+    console.log(auth);
     const res = await auth.signIn({ force: true });
-    db.signer(async (data) => {
-      console.log(data);
-      return {
-        h: "eth-personal-sign",
-        sig: await auth.ethPersonalSign(data),
-      };
-    });
 
-    if (!res?.userId) return auth.signOut();
-
-    await userReference.create([
-      res?.userId, // id
-      "", // name
-      res?.email || "", // email
-      "", // avatarUrl
-      Date.now(), // createdAt
-    ]);
-
-    setUser(res?.userId);
-  };
-
-  const signOut = async () => {
-    if (!auth) return;
-    await auth.signOut();
+    if (!res?.userId) {
+      auth.signOut();
+    } else {
+      await userReference.create([
+        res?.userId, // id
+        "", // name
+        res?.email || "", // email
+        "", // avatarUrl
+        Date.now(), // createdAt
+      ]);
+      setUserId(res?.userId);
+    }
   };
 
   /* USER */
 
-  const getUserRecord = useCallback(async () => {
-    return userReference.record(user).get();
+  const getUserRecord = useCallback(async (userId: string) => {
+    return (await userReference.record(userId).get()).data as User;
   }, []);
 
   /* COMMUNITY */
@@ -92,8 +142,9 @@ export const usePolybase = () => {
       featuredVideoUrl: string;
       featuredCoverImage: string;
     }) => {
+      if (!userId) return;
       const randomId = generateQuickGuid() + "-" + Date.now();
-      communityReference
+      await communityReference
         .create([
           randomId, // id
           name, // name
@@ -106,7 +157,7 @@ export const usePolybase = () => {
         ])
         .then(() => {
           userReference
-            .record(user)
+            .record(userId)
             .call("setCommunityId", [randomId, Date.now()]);
           communitiesObjReference
             .record(communitiesObjId)
@@ -121,7 +172,7 @@ export const usePolybase = () => {
     if (!communityId) return;
     communityReference.record(communityId).onSnapshot(
       (newDoc) => {
-        setCommunityData(newDoc);
+        setCommunityData(newDoc.data as Community);
       },
       (err) => {
         console.log(err);
@@ -131,7 +182,8 @@ export const usePolybase = () => {
 
   const getCommunities = useCallback(async (communitiesId: string[]) => {
     const data = communitiesId.map(
-      async (id) => await communityReference.record(id).get()
+      async (id) =>
+        (await communityReference.record(id).get()).data as Community
     );
     return await Promise.all(data);
   }, []);
@@ -184,7 +236,7 @@ export const usePolybase = () => {
     if (!projectId) return;
     projectReference.record(projectId).onSnapshot(
       (newDoc) => {
-        setProjectData(newDoc);
+        setProjectData(newDoc.data as Project);
       },
       (err) => {
         console.log(err);
@@ -194,7 +246,7 @@ export const usePolybase = () => {
 
   const getProjects = useCallback(async (projectsId: string[]) => {
     const data = projectsId.map(
-      async (id) => await projectReference.record(id).get()
+      async (id) => (await projectReference.record(id).get()).data as Project
     );
     return await Promise.all(data);
   }, []);
@@ -224,7 +276,7 @@ export const usePolybase = () => {
 
   const getArtboards = useCallback(async (artBoards: string[]) => {
     const data = artBoards.map(
-      async (id) => await artboardReference.record(id).get()
+      async (id) => (await artboardReference.record(id).get()).data as Artboard
     );
     return await Promise.all(data);
   }, []);
@@ -275,12 +327,16 @@ export const usePolybase = () => {
       name: string;
       description: string;
     }) => {
-      communitiesObjReference.create([
+      const c = await communitiesObjReference.create([
         id, // id
         name, // name
         description, // description
         Date.now(), // createdAt
       ]);
+
+      console.log("why");
+
+      console.log(c);
     },
     []
   );
@@ -289,8 +345,9 @@ export const usePolybase = () => {
   useMemo(async () => {
     communitiesObjReference.record(communitiesObjId).onSnapshot(
       (newDoc) => {
-        const { communitiesId } = newDoc as any;
+        const { communitiesId } = newDoc.data as any;
         setCommunities(communitiesId);
+        console.log(newDoc);
       },
       (err) => {
         console.log(err);
@@ -302,8 +359,7 @@ export const usePolybase = () => {
   // deleteCommunities
 
   return {
-    signIn,
-    signOut,
+    auth: authenticate,
     loggedIn,
 
     getUserRecord,
@@ -313,6 +369,8 @@ export const usePolybase = () => {
     getCommunities,
     // updateCommunity,
     // deleteCommunity,
+    setActiveCommunityId,
+    setActiveProjectId,
 
     createProject,
     getProject,

@@ -9,8 +9,8 @@ const HeaderNav = () => {
   const path = pathname.split("/");
   const navItem = [
     { name: "DASHBOARD", href: "/studio" },
-    { name: "PROJECTS", href: "/studio/project/new-project" },
-    { name: "CUSTOMIZE", href: "/studio/create-community" },
+    { name: "PROJECTS", href: "/studio/projects" },
+    { name: "CUSTOMIZE", href: "/studio/customize" },
   ];
   return (
     <div className=" flex gap-[16px] items-center">

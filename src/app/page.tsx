@@ -2,7 +2,7 @@ import HeaderL from "@/components/HeaderL";
 import Link from "next/link";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
     <div className=" ">
       <HeaderL />
@@ -61,4 +61,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

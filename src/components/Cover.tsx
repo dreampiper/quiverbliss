@@ -8,7 +8,7 @@ interface CoverProp {
 const Cover = ({ src, alt = "" }: CoverProp) => {
   return (
     <section className=" relative flex items-center justify-center w-full h-[16.8rem] overflow-hidden">
-    <Image
+      <Image
         {...{ src, alt }}
         style={{
           objectFit: "cover",

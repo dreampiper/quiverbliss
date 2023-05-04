@@ -1,10 +1,23 @@
-import React from "react";
+"use client";
+
+import { usePolybase } from "@/hooks/polybase";
 
 const ConnectButton = () => {
+  const { auth, loggedIn } = usePolybase();
+
   return (
-    <button className=" px-5 py-4 bg-black grid place-items-center rounded-lg">
-      <p className=" text-white font-semibold">Connect Wallet</p>
-    </button>
+    <>
+      <button
+        onClick={auth}
+        className=" px-5 py-4 bg-black grid place-items-center rounded-lg"
+      >
+        {loggedIn ? (
+          <p className=" text-white font-semibold">Profile</p>
+        ) : (
+          <p className=" text-white font-semibold">Login</p>
+        )}
+      </button>
+    </>
   );
 };
 

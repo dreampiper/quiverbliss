@@ -1,7 +1,20 @@
-import CommunityCard from "@/components/CommunityCard";
-import { communities } from "@/data/data";
+"use client";
 
-const page = () => {
+import CommunityCard from "@/components/CommunityCard";
+import { Community, usePolybase } from "@/hooks/polybase";
+import { useEffect, useState } from "react";
+
+const Page = () => {
+  const [communities, setCommunities] = useState<Community[]>([]);
+  const { getCommunities, getCommunitiesId } = usePolybase();
+
+  useEffect(() => {
+    (async () => {
+      const communities = await getCommunities(getCommunitiesId || []);
+      setCommunities(communities);
+    })();
+  }, [getCommunitiesId]);
+
   return (
     <div className=" pt-10 px-12 flex flex-col gap-10 ">
       <div className=" w-full bg-[#243237] rounded-3xl flex p-6 gap-6 flex-col items-start">
@@ -27,9 +40,10 @@ const page = () => {
         <div className=" grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-4 w-full">
           {communities.map((data, i) => (
             <CommunityCard
+              id={data.id}
               name={data.name}
               description={data.description}
-              avatarUrl={data.avatarUrl}
+              avatarUrl={`https://gateway.lighthouse.storage/ipfs/${data.avatarUrl}`}
               key={i}
             />
           ))}
@@ -39,4 +53,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
