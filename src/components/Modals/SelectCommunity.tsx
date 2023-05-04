@@ -44,7 +44,7 @@ const SelectCommunityModal = () => {
             Select a community
           </AlertDialog.Title>
           <AlertDialog.Description className="text-mauve11 mt-4 mb-5 text-[15px] leading-normal">
-            Welcome to studio you'll need to choose a community you've created
+            Welcome to studio you&apos;ll need to choose a community you&apos;ve created
             or you can choose to create a new one.
           </AlertDialog.Description>
           <div className="flex flex-col items-start gap-[25px]">
@@ -65,15 +65,15 @@ const SelectCommunityModal = () => {
               </div>
             )}
             {user && user.communitiesId.length > 0 ? (
-              user.communitiesId.map((id) => (
-                <AlertDialog.Action asChild>
+              user.communitiesId.map((id, i) => (
+                <AlertDialog.Action asChild key={i}>
                   <SelectCommunityButton onClick={() => setCommunityId(id)}>
                     {id}
                   </SelectCommunityButton>
                 </AlertDialog.Action>
               ))
             ) : (
-              <p>You haven't created any community yet.</p>
+              <p>You haven&apos;t created any community yet.</p>
             )}
           </div>
         </AlertDialog.Content>

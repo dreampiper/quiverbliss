@@ -37,4 +37,6 @@ const Toaster = forwardRef(({ title }: { title: string }, ref) => {
   );
 });
 
+Toaster.displayName = "Toaster";
+
 export default Toaster;
