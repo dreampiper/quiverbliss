@@ -1,11 +1,11 @@
 "use client";
 
 import CommunityCard from "@/components/CommunityCard";
-import { usePolybase } from "@/hooks/polybase";
+import { Community, usePolybase } from "@/hooks/polybase";
 import { useEffect, useState } from "react";
 
 const Page = () => {
-  const [communities, setCommunities] = useState<any[]>([]);
+  const [communities, setCommunities] = useState<Community[]>([]);
   const { getCommunities, getCommunitiesId } = usePolybase();
 
   useEffect(() => {
@@ -40,9 +40,10 @@ const Page = () => {
         <div className=" grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-4 w-full">
           {communities.map((data, i) => (
             <CommunityCard
+              id={data.id}
               name={data.name}
               description={data.description}
-              avatarUrl={data.avatarUrl}
+              avatarUrl={`https://gateway.lighthouse.storage/ipfs/${data.avatarUrl}`}
               key={i}
             />
           ))}

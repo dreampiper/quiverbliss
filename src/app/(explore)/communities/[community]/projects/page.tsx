@@ -51,8 +51,8 @@ const Page = () => {
     <>
       <div className=" flex flex-col gap-16">
         <div className=" ">
-          <Cover src={`${community.bannerImageUrl}`} />
-          <Avatar src={`${community.avatarUrl}`} />
+          <Cover src={`https://gateway.lighthouse.storage/ipfs/${community.bannerImageUrl}`} />
+          <Avatar src={`https://gateway.lighthouse.storage/ipfs/${community.avatarUrl}`} />
         </div>
         <Nav navItems={navItems} />
       </div>

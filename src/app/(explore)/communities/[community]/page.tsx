@@ -53,8 +53,12 @@ export default function Home() {
     <>
       <div className=" flex flex-col gap-16">
         <div className=" ">
-          <Cover src={`${community.bannerImageUrl}`} />
-          <Avatar src={`${community.avatarUrl}`} />
+          <Cover
+            src={`https://gateway.lighthouse.storage/ipfs/${community.bannerImageUrl}`}
+          />
+          <Avatar
+            src={`https://gateway.lighthouse.storage/ipfs/${community.avatarUrl}`}
+          />
         </div>
         <Nav navItems={navItems} />
       </div>
@@ -65,7 +69,7 @@ export default function Home() {
             <div className=" min-w-[360px] max-w-[560px] w-full h-[315px] relative">
               <div className=" relative w-full h-full overflow-hidden rounded-lg">
                 <Image
-                  src={`${community.featuredCoverImage}`}
+                  src={`https://gateway.lighthouse.storage/ipfs/${community.featuredCoverImage}`}
                   style={{
                     objectFit: "cover",
                     zIndex: 0,

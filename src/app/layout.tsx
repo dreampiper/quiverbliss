@@ -20,7 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={`${inter.className} ${merienda.variable} flex flex-col bg-[#F2F6F9] w-full h-full overflow-x-hidden overscroll-none`} lang="en">
+    <html
+      className={`${inter.className} ${merienda.variable} flex flex-col bg-[#F2F6F9] w-full h-full overflow-x-hidden overscroll-none`}
+      lang="en"
+    >
       <body className={"flex flex-col w-full h-full"}>{children}</body>
     </html>
   );

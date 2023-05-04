@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface ICommCard {
+  id: string;
   name: string;
   description: string;
   avatarUrl: string;
@@ -10,9 +11,9 @@ interface ICommCard {
 
 const CommunityCard = (commCard: ICommCard) => {
   return (
-    <Link href={`/${commCard.name}`}>
+    <Link href={`communities/${commCard.id}`}>
       <div className=" w-full p-6 gap-6 bg-white border-[#F0F1F8] border rounded-xl flex cursor-pointer">
-        <div className=" relative flex items-center justify-center min-w-[100px] h-[100px] overflow-hidden rounded-full z-[1]">
+        <div className="border border-solid border-[#F2F6F9] relative flex items-center justify-center min-w-[100px] h-[100px] overflow-hidden rounded-full z-[1]">
           <Image
             style={{
               objectFit: "cover",
@@ -20,7 +21,7 @@ const CommunityCard = (commCard: ICommCard) => {
             }}
             fill
             priority
-            src={`/${commCard.avatarUrl}`}
+            src={`${commCard.avatarUrl}`}
             alt={""}
           />
         </div>

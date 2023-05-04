@@ -53,7 +53,7 @@ const Page = () => {
           <div>
             <p className=" text-xl tracking-wider">Banner image</p>
             <p className=" tracking-wider">
-            This image will appear across the top of your page.
+              This image will appear across the top of your page.
             </p>
           </div>
           <button className=" bg-white flex px-[18px] py-[14px] gap-4 rounded-lg">
